@@ -4,7 +4,7 @@ const databaseConnection = require('./src/database/database');
 const userRoutes = require('./src/users/users.routes');
 const authRoutes = require('./src/auth/auth.route');
 const characterRoutes = require('./src/characters/characters.routes');
-
+const swaggerRoutes = require('./src/swagger/swagger.routes');
 
 require('dotenv').config();
 
@@ -19,6 +19,8 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/characters', characterRoutes);
 app.use('/auth', authRoutes);
+app.use('/api-docs', swaggerRoutes);
+
 
 
 
