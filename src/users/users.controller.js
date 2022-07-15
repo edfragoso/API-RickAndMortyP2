@@ -1,5 +1,9 @@
+const { find } = require('./User');
 const {
-    findAllUsersService,
+  findAllUsersService,
+  findUserByNameService,
+  findUserByEmailService,
+  createUserService,
 } = require('./users.service');
 
 const findAllUsersController = async (req, res) => {
@@ -16,8 +20,34 @@ const findAllUsersController = async (req, res) => {
   }
 };
 
+ const createUserController = async (req, res) => {
+  try {
+    const { name, username, email, password, photo } = req.body;
+    if (!name || !username || !email || !password) {
+      return res.status(400).send({ message: 'Incomplete data' });
+    }
+    
+    const usernameInDB = await findUserByNameService(username);
+    if (usernameInDB) {
+      return res.status(400).send({ message: 'Invalid userName' })
+    }
+    
+    const emailInDb = await findUserByEmailService(email);
+    if (emailInDb) {
+      return res.status(400).send('Invalid email')
+    }
+
+    const user = await createUserService(req.body).catch((err) => console.log(err, message));
+    if (!user) {
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 
 
 module.exports = {
-    findAllUsersController,
+    findAllUsersController, createUserController
 }
