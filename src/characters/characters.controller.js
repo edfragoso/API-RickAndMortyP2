@@ -1,5 +1,6 @@
 const {
     findAllCharacterService,
+    findByIdCharacterService,
 } = require('./characters.service');
 
 
@@ -25,8 +26,22 @@ const findAllCharacterController = async (req, res) => {
     }
 };
 
+const findByIdCharacterController = async (req, res) => {
+    try {
+        const idParam = req.params.id;
+        const chosenCharacter = await findByIdCharacterService(idParam);
+        if (!chosenCharacter) {
+            return res.status(404).send({ messsage: 'Not Found' })
+        }
+        res.send(chosenCharacter);
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
+};
+
 
 
 module.exports = {
     findAllCharacterController,
+    findByIdCharacterController,
 }
