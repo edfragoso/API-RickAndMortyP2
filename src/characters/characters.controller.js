@@ -3,6 +3,7 @@ const {
     findByIdCharacterService,
     searchCharactersByNameService,
     createCharacterService,
+    updateCharacterService,
 } = require('./characters.service');
 
 
@@ -83,6 +84,24 @@ const createCharacterController = async (req, res) => {
   }
 };
 
+const updateCharacterController = async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const body = req.body;
+
+    const chosenCharacter = await getCharacterByIdService(idParam);
+
+    if (!chosenCharacter) {
+      return res.status(404).send({ message: 'not found' });
+    }
+
+    const updatedCharacter = await updateCharacterService(idParam, body);
+
+    res.send(updatedCharacter);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
 
 
 module.exports = {
@@ -90,4 +109,5 @@ module.exports = {
     findByIdCharacterController,
     searchCharactersByNameController,
     createCharacterController,
+    updateCharacterController
 }

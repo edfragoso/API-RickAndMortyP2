@@ -11,9 +11,14 @@ const createCharacterService = async (name, imageUrl, userId) => {
   return await Character.create({ name, imageUrl, user: userId });
 };
 
+const updateCharacterService = async (id, body) => {
+  return await Character.findByIdAndUpdate(id, body).setOptions({ returnOriginal: false });
+};
+
 module.exports = {
     findAllCharacterService,
     findByIdCharacterService,
     searchCharactersByNameService,
     createCharacterService,
+    updateCharacterService,
 }

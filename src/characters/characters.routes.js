@@ -6,6 +6,7 @@ const {
     findByIdCharacterController,
     searchCharactersByNameController,
     createCharacterController,
+    updateCharacterController,
 } = require('./characters.controller');
 
 const { validCharacterId, validCharacterBody } = require('./characters.middleware');
@@ -17,6 +18,12 @@ router.get('/', authMiddleware,findAllCharacterController);
 router.get('/find/:id', authMiddleware, validCharacterId, findByIdCharacterController);
 router.get('/search', authMiddleware, searchCharactersByNameController);
 router.post('/create', authMiddleware, validCharacterBody, createCharacterController);
+router.put('/update/:id',
+    authMiddleware,
+    validCharacterId,
+    validCharacterBody,
+    updateCharacterController,
+);
 
 
 
