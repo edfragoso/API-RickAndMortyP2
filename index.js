@@ -3,6 +3,7 @@ const cors = require('cors');
 const databaseConnection = require('./src/database/database');
 const characterRoutes = require('./src/characters/characters.routes');
 const userRoutes = require('./src/users/users.routes');
+const authRoutes = require('./src/auth/auth.route');
 
 
 require('dotenv').config();
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use('/users', userRoutes);
 app.use('/characters', characterRoutes);
+app.use('/auth', authRoutes);
 
 
 
