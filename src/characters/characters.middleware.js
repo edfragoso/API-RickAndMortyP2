@@ -20,6 +20,4 @@ const validCharacterBody = (req, res, next) => {
   next();
 };
 
-
-
 module.exports = { validCharacterId, validCharacterBody };

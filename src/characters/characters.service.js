@@ -1,8 +1,8 @@
 const Character = require('./Character');
 
-const findAllCharacterService = async () => await Character.find().populate('user');
+const getAllCharactersService = async () => await Character.find().populate('user');
 
-const findByIdCharacterService = async (id) => await Character.findById(id);
+const getCharacterByIdService = async (id) => await Character.findById(id);
 
 const searchCharactersByNameService = async (query) =>
   await Character.find({ name: { $regex: `${query || ''}`, $options: 'i' } });
@@ -16,11 +16,12 @@ const updateCharacterService = async (id, body) => {
 };
 
 const deleteCharacterService = async (id) => await Character.findByIdAndDelete(id);
+
 module.exports = {
-    findAllCharacterService,
-    findByIdCharacterService,
-    searchCharactersByNameService,
-    createCharacterService,
-    updateCharacterService,
-    deleteCharacterService
-}
+  getAllCharactersService,
+  getCharacterByIdService,
+  searchCharactersByNameService,
+  createCharacterService,
+  updateCharacterService,
+  deleteCharacterService,
+};

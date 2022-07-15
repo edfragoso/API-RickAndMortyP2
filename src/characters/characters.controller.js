@@ -1,45 +1,47 @@
 const {
-    findAllCharacterService,
-    findByIdCharacterService,
-    searchCharactersByNameService,
-    createCharacterService,
-    updateCharacterService,
+  getAllCharactersService,
+  getCharacterByIdService,
+  searchCharactersByNameService,
+  createCharacterService,
+  updateCharacterService,
+  deleteCharacterService,
 } = require('./characters.service');
 
+const getAllCharactersController = async (req, res) => {
+  try {
+    const allCharacters = await getAllCharactersService();
 
-const findAllCharacterController = async (req, res) => {
-    try {
-        const allCharacters = await findAllCharacterService();
-
-        if (!allCharacters) {
-            return res.status(404).send({message: 'File not Found'});
-        }
-        
-        /* res.send(allCharacters) */
-        res.send({
-            results: allCharacters.map((character) => ({
-            id: character._id,
-            name: character.name,
-            imageUrl: character.imageUrl,
-            user: character.user,
-        })),
-        });
-    } catch (err) {
-        res.status(500).send({ message: err.message});
+    if (!allCharacters) {
+      return res.status(404).send({ message: 'not found' });
     }
+
+    res.send({
+      results: allCharacters.map((character) => ({
+        id: character._id,
+        name: character.name,
+        imageUrl: character.imageUrl,
+        user: character.user,
+      })),
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 };
 
-const findByIdCharacterController = async (req, res) => {
-    try {
-        const idParam = req.params.id;
-        const chosenCharacter = await findByIdCharacterService(idParam);
-        if (!chosenCharacter) {
-            return res.status(404).send({ messsage: 'Not Found' })
-        }
-        res.send(chosenCharacter);
-    } catch (err) {
-        res.status(500).send({ message: err.message })
+const getCharacterByIdController = async (req, res) => {
+  try {
+    const idParam = req.params.id;
+
+    const chosenCharacter = await getCharacterByIdService(idParam);
+
+    if (!chosenCharacter) {
+      return res.status(404).send({ message: 'not found' });
     }
+
+    res.send(chosenCharacter);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 };
 
 const searchCharactersByNameController = async (req, res) => {
@@ -47,13 +49,13 @@ const searchCharactersByNameController = async (req, res) => {
     const query = req.query.name;
 
     if (!query) {
-      return res.status(400).send({ message: 'Bad request' });
+      return res.status(400).send({ message: 'bad request' });
     }
 
     const chosenCharacters = await searchCharactersByNameService(query);
 
     if (!chosenCharacters) {
-      return res.status(404).send({ message: ' File not found' });
+      return res.status(404).send({ message: 'not found' });
     }
 
     res.send({
@@ -121,12 +123,11 @@ const deleteCharacterController = async (req, res) => {
   }
 };
 
-
 module.exports = {
-    findAllCharacterController,
-    findByIdCharacterController,
-    searchCharactersByNameController,
-    createCharacterController,
-    updateCharacterController,
-    deleteCharacterController
-}
+  getAllCharactersController,
+  getCharacterByIdController,
+  searchCharactersByNameController,
+  createCharacterController,
+  updateCharacterController,
+  deleteCharacterController,
+};

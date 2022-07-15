@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken');
-const { findUserById } = require('../users/users.service');
+const { getUserById } = require('../users/users.service');
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).send({ message: 'Token not provided' });
+    return res.status(401).send({ message: 'token not provided' });
   }
 
   const headerParts = authHeader.split(' ');
 
   if (headerParts.length !== 2) {
-    return res.status(401).send({ message: 'Invalid token' });
+    return res.status(401).send({ message: 'invalid token' });
   }
 
   const [scheme, token] = headerParts;
@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
       return res.status(401).send({ message: 'invalid token' });
     }
 
-    const user = await findUserById(decoded.id);
+    const user = await getUserById(decoded.id);
 
     if (!user) {
       return res.status(404).send({ message: 'user not found' });

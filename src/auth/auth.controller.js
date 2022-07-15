@@ -8,13 +8,13 @@ const loginController = async (req, res) => {
     const user = await loginService(email);
 
     if (!user) {
-      return res.status(400).send({ message: 'Invalid login info' });
+      return res.status(400).send({ message: 'invalid login info' });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return res.status(400).send({ message: 'Invalid login info' });
+      return res.status(400).send({ message: 'invalid login info' });
     }
 
     const token = generateToken(user.id);

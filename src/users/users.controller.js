@@ -1,16 +1,15 @@
-const { find } = require('./User');
 const {
-  findAllUsersService,
-  findUserByNameService,
-  findUserByEmailService,
+  getAllUsersService,
+  getUserByUsernameService,
+  getUserByEmailService,
   createUserService,
 } = require('./users.service');
 
 const { generateToken } = require('../auth/auth.service');
 
-const findAllUsersController = async (req, res) => {
+const getAllUsersController = async (req, res) => {
   try {
-    const allUsers = await findAllUsersService();
+    const allUsers = await getAllUsersService();
 
     if (allUsers.length === 0) {
       return res.status(404).send({ message: 'no users in DB' });
@@ -22,26 +21,32 @@ const findAllUsersController = async (req, res) => {
   }
 };
 
- const createUserController = async (req, res) => {
+const createUserController = async (req, res) => {
   try {
     const { name, username, email, password, photo } = req.body;
-    if (!name || !username || !email || !password) {
-      return res.status(400).send({ message: 'Incomplete data' });
+
+    if (!name || !username || !email || !password || !photo) {
+      return res.status(400).send({ message: 'incomplete data' });
     }
-    
-    const usernameInDB = await findUserByNameService(username);
-    if (usernameInDB) {
-      return res.status(400).send({ message: 'Invalid userName' })
+
+    const usernameInDb = await getUserByUsernameService(username);
+
+    if (usernameInDb) {
+      return res.status(400).send({ message: 'invalid username' });
     }
-    
-    const emailInDb = await findUserByEmailService(email);
+
+    const emailInDb = await getUserByEmailService(email);
+
     if (emailInDb) {
-      return res.status(400).send('Invalid email')
+      return res.status(400).send({ message: 'invalid email' });
     }
 
     const user = await createUserService(req.body).catch((err) => console.log(err, message));
+
     if (!user) {
-      return res.status(500).send({ message: 'Internal server error' });
+      return res.status(500).send({
+        message: 'internal server error',
+      });
     }
 
     const token = generateToken(user.id);
@@ -61,8 +66,4 @@ const findAllUsersController = async (req, res) => {
   }
 };
 
-
-
-module.exports = {
-    findAllUsersController, createUserController
-}
+module.exports = { getAllUsersController, createUserController };
