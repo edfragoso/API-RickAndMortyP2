@@ -3,6 +3,9 @@
   "info": {
     "title": "API Rick And Morty",
     "description": "description",
+    "contact": {
+        "'email": "ednilson.fragoso@hotmail.com"
+    },
     "version": "1.0.0"
   },
   "servers": [
