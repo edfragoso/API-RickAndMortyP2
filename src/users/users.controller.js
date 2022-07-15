@@ -6,6 +6,8 @@ const {
   createUserService,
 } = require('./users.service');
 
+const { generateToken } = require('../auth/auth.service');
+
 const findAllUsersController = async (req, res) => {
   try {
     const allUsers = await findAllUsersService();
@@ -41,6 +43,19 @@ const findAllUsersController = async (req, res) => {
     if (!user) {
       return res.status(500).send({ message: 'Internal server error' });
     }
+
+    const token = generateToken(user.id);
+
+    res.status(201).send({
+      user: {
+        id: user.id,
+        name,
+        username,
+        email,
+        photo,
+      },
+      token,
+    });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
