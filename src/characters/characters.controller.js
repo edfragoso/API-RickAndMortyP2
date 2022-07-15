@@ -1,7 +1,8 @@
 const {
     findAllCharacterService,
     findByIdCharacterService,
-    searchCharactersByNameService
+    searchCharactersByNameService,
+    createCharacterService,
 } = require('./characters.service');
 
 
@@ -67,10 +68,26 @@ const searchCharactersByNameController = async (req, res) => {
   }
 };
 
+const createCharacterController = async (req, res) => {
+  try {
+    const { name, imageUrl } = req.body;
+
+    const { id } = await createCharacterService(name, imageUrl, req.userId);
+
+    res.status(201).send({
+      message: 'created',
+      character: { id, name, imageUrl },
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 
 
 module.exports = {
     findAllCharacterController,
     findByIdCharacterController,
     searchCharactersByNameController,
+    createCharacterController,
 }
