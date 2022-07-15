@@ -8,9 +8,12 @@ const findUserByEmailService = async (email) => await User.findOne({ email: emai
 
 const createUserService = async (body) => await User.create(body);
 
+const findUserById = async (id) => await User.findById(id);
+
 module.exports = {
     findAllUsersService,
     findUserByNameService,
     findUserByEmailService,
     createUserService,
+    findUserById
 }
