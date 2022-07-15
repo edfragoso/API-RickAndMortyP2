@@ -1,6 +1,7 @@
 const {
     findAllCharacterService,
     findByIdCharacterService,
+    searchCharactersByNameService
 } = require('./characters.service');
 
 
@@ -39,9 +40,37 @@ const findByIdCharacterController = async (req, res) => {
     }
 };
 
+const searchCharactersByNameController = async (req, res) => {
+  try {
+    const query = req.query.name;
+
+    if (!query) {
+      return res.status(400).send({ message: 'Bad request' });
+    }
+
+    const chosenCharacters = await searchCharactersByNameService(query);
+
+    if (!chosenCharacters) {
+      return res.status(404).send({ message: ' File not found' });
+    }
+
+    res.send({
+      characters: chosenCharacters.map((character) => ({
+        id: character._id,
+        name: character.name,
+        imageUrl: character.imageUrl,
+        user: character.user,
+      })),
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 
 
 module.exports = {
     findAllCharacterController,
     findByIdCharacterController,
+    searchCharactersByNameController,
 }
