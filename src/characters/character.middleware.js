@@ -10,6 +10,16 @@ const validCharacterId = (req, res, next) => {
   next();
 };
 
+const validCharacterBody = (req, res, next) => {
+  const { name, imageUrl } = req.body;
+
+  if (!name || !imageUrl) {
+    return res.status(400).send({ message: 'incomplete data' });
+  }
+
+  next();
+};
 
 
-module.exports = { validCharacterId };
+
+module.exports = { validCharacterId, validCharacterBody };
