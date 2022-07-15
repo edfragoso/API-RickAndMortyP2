@@ -103,11 +103,30 @@ const updateCharacterController = async (req, res) => {
   }
 };
 
+const deleteCharacterController = async (req, res) => {
+  try {
+    const idParam = req.params.id;
+
+    const chosenCharacter = await getCharacterByIdService(idParam);
+
+    if (!chosenCharacter) {
+      return res.status(404).send({ message: 'not found' });
+    }
+
+    await deleteCharacterService(idParam);
+
+    res.status(200).send({ message: 'deleted' });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 
 module.exports = {
     findAllCharacterController,
     findByIdCharacterController,
     searchCharactersByNameController,
     createCharacterController,
-    updateCharacterController
+    updateCharacterController,
+    deleteCharacterController
 }

@@ -15,10 +15,12 @@ const updateCharacterService = async (id, body) => {
   return await Character.findByIdAndUpdate(id, body).setOptions({ returnOriginal: false });
 };
 
+const deleteCharacterService = async (id) => await Character.findByIdAndDelete(id);
 module.exports = {
     findAllCharacterService,
     findByIdCharacterService,
     searchCharactersByNameService,
     createCharacterService,
     updateCharacterService,
+    deleteCharacterService
 }
