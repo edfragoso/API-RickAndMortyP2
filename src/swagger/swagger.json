@@ -2,9 +2,10 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API Rick And Morty",
-    "description": "description",
+    "description": "API for CRUD series characters Rick And Morty",
+    "termsOfService": "",
     "contact": {
-        "'email": "ednilson.fragoso@hotmail.com"
+      "email": "ednilson.fragoso@hotmail.com"
     },
     "version": "1.0.0"
   },
