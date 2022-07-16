@@ -24,10 +24,10 @@ const deleteCharacterService = async (id) => await Character.findByIdAndDelete(i
 
 module.exports = {
   getAllCharactersService,
+  countCharacters,
   getCharacterByIdService,
   searchCharactersByNameService,
   createCharacterService,
   updateCharacterService,
   deleteCharacterService,
-  countCharacters
 };
