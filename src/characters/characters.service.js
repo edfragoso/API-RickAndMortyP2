@@ -9,7 +9,8 @@ const countCharacters = async () => await Character.countDocuments();
 const getCharacterByIdService = async (id) => await Character.findById(id);
 
 const searchCharactersByNameService = async (query) => {
-   return await Character.find({ name: { $regex: `${query || ''}`, $options: 'i' } });
+  return await Character.find({ name: { $regex: `${query || ''}`, $options: 'i' } })
+};
 
 const createCharacterService = async (name, imageUrl, userId) => {
   return await Character.create({ name, imageUrl, user: userId });
