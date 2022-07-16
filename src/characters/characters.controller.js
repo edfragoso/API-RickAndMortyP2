@@ -9,13 +9,29 @@ const {
 
 const getAllCharactersController = async (req, res) => {
   try {
-    const allCharacters = await getAllCharactersService();
 
+     let { offset, limit } = req.query;
+
+    offset = Number(offset);
+    limit = Number(limit);
+
+    if (!offset) {
+      offset = 0;
+    }
+
+    if (!limit) {
+      limit = 4;
+    }
+    const allCharacters = await getAllCharactersService(offset, limit);
+    
     if (!allCharacters) {
       return res.status(404).send({ message: 'not found' });
     }
 
+    const totalCharacters = await countCharacters();
+    
     res.send({
+       total: totalCharacters,
       results: allCharacters.map((character) => ({
         id: character._id,
         name: character.name,
