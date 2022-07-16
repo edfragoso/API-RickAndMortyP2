@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://api-rickandmortyp2.herokuapp.com/api-docs/",
+      "url": "https://api-rickandmortyp2.herokuapp.com/",
       "description": "API Herokuapp"
     },
     {
