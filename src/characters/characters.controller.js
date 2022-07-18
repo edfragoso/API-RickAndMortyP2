@@ -20,7 +20,7 @@ const getAllCharactersController = async (req, res) => {
     }
 
     if (!limit) {
-      limit = 4;
+      limit = 8;
     }
     const allCharacters = await getAllCharactersService(offset, limit);
 
